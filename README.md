@@ -1,8 +1,4 @@
-# [항해99] 교육자료 코드 저장소
-
-## 코스 소개
-
-https://github.com/devjaewon/teamsparta-frontend-junior-curriculum.git
+교육자료 코드 저장소
 
 ## 목차
 
