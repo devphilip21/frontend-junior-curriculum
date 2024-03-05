@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "chapter1",
+  "description": "Chatper 1 source code",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "node lib/server.mjs",
+    "test:1a": "jest src/a.test.js",
+    "test:1a2": "node src/a.js"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "express": "^4.18.2",
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "connect-livereload": "^0.6.1",
+    "livereload": "^0.9.3"
+  }
+}
