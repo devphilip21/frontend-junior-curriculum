@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+}
+body,
+h1, h2, h3, p,
+ul, ol, li,
+input {
+  margin: 0;
+  padding: 0;
+}
+ul, ol {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  font: inherit;
+  color: inherit;
+}
+
+/* Common */
+.notice {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: #555;
+}
+/* //Common */
+
+/* SearchInput */
+.search-input {
+  padding: 50px 0;
+  text-align: center;
+}
+.search-input .box {
+  display: inline-block;
+  position: relative;
+  width: 300px;
+  height: 44px;
+  vertical-align: top;
+}
+.search-input .input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  border: 0;
+  font-size: 16px;
+  background: transparent;
+  outline: none;
+}
+.search-input .input::placeholder {
+  color: #cacaca;
+}
+.search-input .input:focus+.border {
+  border-color: #333;
+}
+.search-input .border {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border: 1px solid #cacaca;
+  border-radius: 22px;
+}
+/* //SearchInput */
+
+/* Loading */
+@keyframes blink {
+  0% {
+    background-color: #ccc;
+  }
+  100% {
+    background-color: #555;
+  }
+}
+.loading {
+  width: 100px;
+  height: 10px;
+  margin: 0 auto;
+}
+.loading .bar {
+  height: 10px;
+  border-radius: 10px;
+  animation: blink 0.5s infinite alternate-reverse;
+}
+/* //Loading */
+
+/* MovieList */
+.movie-list {
+  width: 300px;
+  margin: 0 auto;
+}
+.movie-list .item + .item {
+  margin-top: 10px;
+}
+/* //MovieList */
+
+/* MovieCard */
+.movie-card {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  background-color: #fbfbfb;
+}
+.movie-card:hover {
+  background-color: #f2f2f2;
+}
+.movie-card .title {
+  display: block;
+  font-size: 15px;
+  color: #111;
+}
+.movie-card .desc {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+}
+/* // MovieCard */
