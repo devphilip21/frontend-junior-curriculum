@@ -16,4 +16,10 @@ export default class MovieRepository {
       ? this._data.filter(movie => movie.title.indexOf(query) === 0)
       : [];
   }
+
+  async getDetail(id) {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    return this._data.find(movie => movie.id === id) || null;
+  }
 }

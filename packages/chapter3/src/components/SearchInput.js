@@ -10,5 +10,5 @@ export default function SearchInput() {
         <div className="border" />
       </div>
     </div>
-  )
+  );
 }

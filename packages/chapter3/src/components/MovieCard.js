@@ -1,11 +1,16 @@
+import Link from 'next/link';
+
 export default function MovieCard({
+  id,
   title,
   description,
 }) {
+  const href = `/${id}`;
+
   return (
-    <a href="" className="movie-card">
+    <Link href={href} className='movie-card'>
       <strong className="title">{title}</strong>
       <p className="desc">{description}</p>
-    </a>
+    </Link>
   );
 }
