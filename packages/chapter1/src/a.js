@@ -2,7 +2,7 @@
  * ## 문제 A
  * 
  * <준비>
- * 1. npm run test:1a 를 실행하면 테스트를 실행할 수 있습니다.
+ * 1. yarn workspace chapter1 run test:1a 를 실행하면 테스트를 실행할 수 있습니다.
  * 2. 테스트 코드가 모두 실패로 나올 것이에요.
  * 
  * <목표>
@@ -46,7 +46,7 @@ function JuniorEngineer(health, intelligence) {
  * <준비>
  * 1. 문제 A를 모두 푸신분만 풀어주세요.
  * 2. 아래의 코드의 주석을 해제하세요.
- * 3. npm run test:1a2 를 실행하면 성능(소요된 시간)이 콘솔에 나옵니다.
+ * 3. yarn workspace chapter1 run test:1a2 를 실행하면 성능(소요된 시간)이 콘솔에 나옵니다.
  * 
  * <목표>
  * 코드를 개선하여 성능을 개선해보세요.

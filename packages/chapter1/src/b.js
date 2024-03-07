@@ -2,8 +2,8 @@
  * ## 문제 B
  * 
  * <준비>
- * 1. npm run dev 로 개발서버를 실행합니다.
- * 2. http://localhost:8000/chapters/chapter1/b.html 로 접속하면 UI를 확인할 수 있어요.
+ * 1. yarn workspace chapter1 run dev 로 개발서버를 실행합니다.
+ * 2. http://localhost:8000/b.html 로 접속하면 UI를 확인할 수 있어요.
  * 3. 버튼을 클릭 했을 때, 로딩이 멈추는 것을 볼 수 있습니다.
  * 
  * <목표>
