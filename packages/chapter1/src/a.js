@@ -41,7 +41,7 @@ function JuniorEngineer(health, intelligence) {
 
 
 /**
- * ## 문제 A - 추가문제
+ * ## 문제 C - 심화문제
  * 
  * <준비>
  * 1. 문제 A를 모두 푸신분만 풀어주세요.
