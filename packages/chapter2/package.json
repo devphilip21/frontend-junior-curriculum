@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "chapter2",
+  "description": "Chatper 2 source code",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:a": "SUBJECT=A node src/cmd/server.mjs",
+    "dev:b": "SUBJECT=B node src/cmd/server.mjs",
+    "dev:c": "SUBJECT=C node src/cmd/server.mjs"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.6.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.2",
+    "webpack": "^5.90.3",
+    "webpack-dev-server": "^5.0.2"
+  },
+  "dependencies": {
+    "@kjojs/eventbus": "^1.1.4"
+  }
+}
