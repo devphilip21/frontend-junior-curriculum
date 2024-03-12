@@ -1,8 +1,8 @@
 // React에서는 다른 방식으로 처리하지만 (updateQueue, Lane)
 // 현재 구조에 맞게 변경사항을 업데이트 하기 위한 객체입니다.
+
 export class PatchNode {
   static fragmentKey = '__fragment__';
-  static DEBUG = false;
 
   static createFragment(
     key: string,
@@ -74,13 +74,13 @@ export class PatchNode {
 
   copy(): PatchNode {
     return new PatchNode(
-      '',
-      '',
-      {},
-      [],
-      null,
+      this._key,
+      this._tagName,
+      {...this._attributes},
+      this._children.map(child => child.copy()),
+      this._content,
       false,
-      null,
+      this._onClick,
     );
   }
 }

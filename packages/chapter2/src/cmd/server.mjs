@@ -76,17 +76,14 @@ function createHtmlTemplate() {
       border-bottom:1px solid #eaeaea;
     }
     .header h1 {
-      padding:6px 4px;
-      font-size:18px;
+      padding:6px 4px;font-size:18px;
     }
     .main {
       margin-top:12px;padding:12px;border-radius:12px;
-      background-color:#f2f2f2;
-      text-align:center;
+      background-color:#f2f2f2;text-align:center;
     }
     .main .desc {
-      font-size:15px;line-height:1.5;
-      color:#383838;
+      font-size:15px;line-height:1.5;color:#383838;
     }
     .main .count {
       display:inline-block;margin-right:4px;
@@ -96,11 +93,31 @@ function createHtmlTemplate() {
       color:red;
     }
     .main .btn {
-      display:inline-block;
-      height:30px;margin-left:6px;border-radius:15px;
-      border:1px solid #555;padding:0 14px;background: #fff;
-      vertical-align:top;
-      cursor:pointer;
+      display:inline-block;height:30px;margin-left:6px;border-radius:15px;
+      border:2px solid #555;padding:0 14px;background:#fff;
+      vertical-align:top;cursor:pointer;
+    }
+    .main .btn.selected {
+      background: #555;color:#fff;
+    }
+    .main .tab-buttons .btn + .btn {
+      margin-left:6px;
+    }
+    .main .tab-buttons.pending .btn {
+      border-color: red;
+    }
+    .main .panel {
+      margin-top:12px;
+    }
+    .main .panel-1 {
+      line-height:6px;
+    }
+    .main .box {
+      display:inline-block;width:6px;height:6px;
+      background-color:#fff;vertical-align:top;
+    }
+    .main .box:nth-child(2n) {
+      background-color: #111;
     }
   </style>
 </head>

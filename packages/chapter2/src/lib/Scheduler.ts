@@ -2,50 +2,82 @@ import EventBus from "@kjojs/eventbus";
 import { Fiber } from "./react/Fiber";
 import { FiberRoot } from "./react/FiberRoot";
 
-class Scheduler extends EventBus<{ renderComplete: Fiber }> {
+enum ScheduleTaskType {
+  Urgent,
+  UrgentPending,
+  Transition,
+}
+
+interface ScheduleTask {
+  taskType: ScheduleTaskType;
+  root: FiberRoot;
+  cursor: Fiber;
+}
+
+// Fiber의 작업 우선순위를 조정합니다.
+// Fiber 작업을 적절한 시분할로 비동기 렌더링을 하거나 동기 렌더링을 수행합니다.
+class Scheduler extends EventBus<{ renderComplete: FiberRoot }> {
   static instance = new Scheduler();
 
-  // 스케줄러는 작업할 fiber를 스택으로 관리합니다.
-  // bfs 트리 순회를 하기 위함입니다.
-  private _stack: Array<Fiber> = [];
+  private _queue: Array<ScheduleTask> = [];
+  private _current: ScheduleTask | null = null;
 
-  constructor() {
-    super();
-    // 3. 스케줄러는 10ms마다 체크해서 스택에 남아있는 작업을 다시 수행합니다.
-    setInterval(() => {
-      this._checkAndWork();
-    }, 10);
-  }
-
-  // 1. Render 단계를 수행하면서 fiber가 스케줄링 됩니다.
+  // 1. 스케줄링이 할당 됩니다.
   schedule(fiberRoot: FiberRoot) {
-    if (this._stack.length === 0) {
-      return this._work(fiberRoot.current);
-    }
+    const task: ScheduleTask = {
+      taskType: ScheduleTaskType.Urgent,
+      root: fiberRoot,
+      cursor: fiberRoot.current,
+    };
+
+    this._enqueueTask(task);
   }
 
-  // 2. fiber를 렌더링하고 다음 fiber를 모두 stack에 추가합니다.
-  // - 스택이 모두 비면 renderComplete 이벤트가 발생합니다.
-  private _work(fiber: Fiber) {
-    fiber.render();
-
-    const nextFiber = fiber.next();
-    if (nextFiber) {
-      this._stack.push(nextFiber);
+  // 2. 진행 중인 렌더링이 없으면 실행하고, 아니면 큐에 넣습니다.
+  private _enqueueTask(task: ScheduleTask) {
+    if (!this._current) {
+      this._current = task;
+      this._workAsync(10);
+      return;
     }
     
-    if (this._stack.length === 0) {
-      this.emit('renderComplete', fiber);
-    }
+    this._queue.push(task);
   }
 
-  private _checkAndWork() {
-    if (this._stack.length > 0) {
-      const fiber = this._stack.pop() || null;
-      if (fiber) {
-        this._work(fiber);
-      }
+  private _workAsync(delay: number) {
+    if (!this._current) {
+      return;
     }
+
+    setTimeout(() => {
+      this._work();
+    }, delay);
+  }
+
+  // 3. 렌더링이 수행됩니다.
+  private _work() {
+    if (!this._current) {
+      return;
+    }
+
+    const { cursor, root } = this._current;
+
+    cursor.render();
+
+    // 4. 다음 fiber 가 있으면 작업을 수행하고
+    // 없으면 renderComplete 이벤트가 발생합니다.
+    const nextFiber = cursor.next();
+    if (!nextFiber) {
+      this.emit('renderComplete', root);
+
+      this._current = this._queue.shift() || null;
+      if (this._current) {
+        this._workAsync(10);
+      }
+      return;
+    }
+    this._current.cursor = nextFiber;
+    this._work();
   }
 }
 

@@ -1,4 +1,3 @@
-import EventBus from "@kjojs/eventbus";
 import { ReactComponent, ReactElement } from "./ReactElement";
 import { PatchNode } from "./PatchNode";
 
@@ -11,9 +10,7 @@ interface FiberChild {
 //
 // Fiber는 모듈이라기보다는 렌더링 작업노드에 대한 명세서 객체입니다.
 // 이해하기 쉽도록 객체지향 기반의 코드로 변형된 설계입니다.
-export class Fiber extends EventBus<{
-  rendered: Fiber;
-}> {
+export class Fiber {
   static createRoot(component: ReactComponent) {
     const key = '__root__';
 
@@ -31,15 +28,20 @@ export class Fiber extends EventBus<{
   // fiber 객체의 next를 탐색하기 위한 커서입니다.
   // 실제 React에서는 sibling과 child에 대한 참조값을 갖고 탐색하지만, 단순화 시켰습니다.
   private _childCursor = -1;
+  // 렌더링 진행 중의 props 객체입니다.
+  private _pendingProps: Record<string, any>;
+  // 렌더링 진행 중의 state 배열입니다.
+  // useState() 첫번째는 [0] 두번쨰는 [1] 이런식으로 할당 됩니다.
+  private _pendingStates: any[];
 
   constructor(
     private _key: string,
     // 편의를 위해 부모 자식간 순환참조를 사용합니다.
     // 이해를 위한 코드로 다르게 설계하셔도 됩니다.
     private _parent: Fiber | null,
-    // props 객체입니다.
+    // 커밋이 완료된 props 객체입니다.
     private _props: Record<string, any>,
-    // 상태값 입니다. useState() 첫번째는 [0] 두번쨰는 [1] 이런식으로 할당 됩니다.
+    // 커밋이 완료된 상태값 입니다.
     private _states: any[],
     // 컴포넌트 함수입니다.
     private _component: ReactComponent,
@@ -53,7 +55,8 @@ export class Fiber extends EventBus<{
     // 이 또한 다르게 설계하셔도 됩니다.
     private _patchNode: PatchNode = PatchNode.createFragment(_key),
   ) {
-    super();
+    this._pendingProps = {..._props};
+    this._pendingStates = [..._states];
   }
   
   get key() {
@@ -98,9 +101,7 @@ export class Fiber extends EventBus<{
 
   async render() {
     const element = this._component(this._props);
-
     this._patchNode = this._render(element, 0, 0);
-    this.emit('rendered', this);
   }
 
   reRender(newProps: Record<any, any>) {
@@ -139,6 +140,12 @@ export class Fiber extends EventBus<{
     );
 
     return fiber;
+  }
+
+  callAfterCommit(): void {
+    this._props = {...this._pendingProps};
+    this._states = [...this._pendingStates];
+    this._children.forEach(child => child.fiber.callAfterCommit());
   }
 
   private _render(

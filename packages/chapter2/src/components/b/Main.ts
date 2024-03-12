@@ -1,4 +1,4 @@
-import { useState } from '../../lib/react/Hooks';
+import { useState } from '../../lib/react/Effects';
 import { createElement as e } from '../../lib/react/ReactElement';
 import Counter from './Counter';
 import Button from './Button';
